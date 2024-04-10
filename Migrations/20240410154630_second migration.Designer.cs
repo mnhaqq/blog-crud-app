@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace blog_crud_app.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20240409092525_initial migration")]
-    partial class initialmigration
+    [Migration("20240410154630_second migration")]
+    partial class secondmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,19 +27,13 @@ namespace blog_crud_app.Migrations
 
             modelBuilder.Entity("BlogCrudApp.Models.Comment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CommentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CommentId")
-                        .HasColumnType("integer");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CommentId"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("DateAdded")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("PostId")
@@ -49,10 +43,7 @@ namespace blog_crud_app.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("status")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
+                    b.HasKey("CommentId");
 
                     b.HasIndex("PostId");
 
@@ -61,11 +52,11 @@ namespace blog_crud_app.Migrations
 
             modelBuilder.Entity("BlogCrudApp.Models.Post", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PostId"));
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -74,20 +65,11 @@ namespace blog_crud_app.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("DateAdded")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("status")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
+                    b.HasKey("PostId");
 
                     b.ToTable("Posts");
                 });
@@ -98,7 +80,8 @@ namespace blog_crud_app.Migrations
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_Comment_Post");
 
                     b.Navigation("Post");
                 });

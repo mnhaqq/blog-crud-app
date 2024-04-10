@@ -77,7 +77,8 @@ namespace blog_crud_app.Migrations
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_Comment_Post");
 
                     b.Navigation("Post");
                 });

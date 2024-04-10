@@ -17,9 +17,11 @@ namespace BlogCrudApp.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Comment>(entity => {
-                entity.HasOne(p => p.Post)
-                    .WithMany(c => c.Comments)
-                    .HasForeignKey(x => x.PostId);
+                entity.HasOne(c => c.Post)
+                    .WithMany(p => p.Comments)
+                    .HasForeignKey(c => c.PostId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_Comment_Post");
             });
         }
     }

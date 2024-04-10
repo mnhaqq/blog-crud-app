@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace blog_crud_app.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20240409095458_remove base entity")]
-    partial class removebaseentity
+    [Migration("20240410140649_initial migration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
