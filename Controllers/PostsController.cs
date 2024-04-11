@@ -1,7 +1,8 @@
 using BlogCrudApp.Data;
 using BlogCrudApp.Models;
+using BlogCrudApp.Manager;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace BlogCrudApp.Controllers
 {
@@ -10,64 +11,68 @@ namespace BlogCrudApp.Controllers
     public class PostsController : ControllerBase
     {
         private readonly ApiDbContext _context;
+        PostsManager postsManager;
 
         public PostsController(ApiDbContext context)
         {
             _context = context;
+            postsManager = new PostsManager(_context);
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var posts = await _context.Posts.Include(c => c.Comments).ToListAsync();
+            var posts = await postsManager.GetAllPosts();
             return Ok(posts);
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            var post = await _context.Posts.Include(c => c.Comments).FirstOrDefaultAsync(x => x.PostId == id);
-
-            if (post == null)
-                return BadRequest("Invalid Id");
-        
-            return Ok(post); 
+            try
+            {
+                var post = await postsManager.GetSinglePost(id);
+                return Ok(post);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(Post post)
         {
-            await _context.Posts.AddAsync(post);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(Get), new { id = post.PostId }, post);
+            var postId = await postsManager.AddNewPost(post);
+            return CreatedAtAction(nameof(Get), new { id = postId }, post);
         }
 
         [HttpPatch]
         public async Task<IActionResult> Patch(int id, Post updatedPost)
         {
-            var post = await _context.Posts.FirstOrDefaultAsync(x => x.PostId == id);
-
-            if (post == null)
-                return BadRequest("Invalid Id");
-
-            post.Content = updatedPost.Content;
-            await _context.SaveChangesAsync();
-            return NoContent();
+            try
+            {
+                await postsManager.PatchPost(id, updatedPost);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            var post = await _context.Posts.FirstOrDefaultAsync(x => x.PostId == id);
-
-            if (post == null)
-                return BadRequest("Invalid Id");
-
-            _context.Posts.Remove(post);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            try
+            {
+                await postsManager.DeletePost(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

@@ -1,7 +1,8 @@
 using BlogCrudApp.Data;
 using BlogCrudApp.Models;
+using BlogCrudApp.Manager;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace BlogCrudApp.Controllers
 {
@@ -10,71 +11,74 @@ namespace BlogCrudApp.Controllers
     public class CommentsController : ControllerBase
     {
         private readonly ApiDbContext _context;
-
+        CommentsManager commentsManager;
         public CommentsController(ApiDbContext context)
         {
             _context = context;
+            commentsManager = new CommentsManager(_context);
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var comments = await _context.Comments.ToListAsync();
+            var comments = await commentsManager.GetAllComments();
             return Ok(comments);
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            var comment = await _context.Comments.FirstOrDefaultAsync(x => x.CommentId == id);
-
-            if (comment == null)
-                return BadRequest("Invalid Id");
-
-            return Ok(comment);
+            try
+            {
+                var comment = await commentsManager.GetSingleComment(id);
+                return Ok(comment);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(Comment comment)
         {
-            var post = await _context.Posts.FirstOrDefaultAsync(x => x.PostId == comment.PostId);
-
-            if (post == null)
-                return BadRequest("Invalid Post Id");
-            
-            post.Comments.Add(comment);
-            
-            await _context.Comments.AddAsync(comment);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(Get), new { id = comment.CommentId }, comment);
+            try
+            {
+                var commentId = await commentsManager.AddNewComment(comment);
+                return CreatedAtAction(nameof(Get), new { id = commentId }, comment);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPatch]
         public async Task<IActionResult> Patch(int id, Comment updatedComment)
         {
-            var comment = await _context.Comments.FirstOrDefaultAsync(x => x.CommentId == id);
-
-            if (comment == null)
-                return BadRequest("Invalid Id");
-
-            comment.Text = updatedComment.Text;
-            await _context.SaveChangesAsync();
-            return NoContent();
+            try
+            {
+                await commentsManager.PatchComment(id, updatedComment);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            var comment = await _context.Comments.FirstOrDefaultAsync(x => x.CommentId == id);
-
-            if (comment == null)
-                return BadRequest("Invalid Id");
-            
-            _context.Comments.Remove(comment);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            try
+            {
+                await commentsManager.Delete(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }
