@@ -15,7 +15,7 @@ namespace BlogCrudApp.Manager
 
         public async Task<List<Post>> GetAllPosts()
         {
-            var posts = await _context.Posts.Include(c => c.Comments).ToListAsync();
+            var posts = await _context.Posts.ToListAsync();
             return posts;
         }
 
