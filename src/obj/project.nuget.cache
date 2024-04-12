@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zqwFKm7m+Y7786VauiGXanQnRJzAleVPlSvb0tv16AaaFV5DU7Q1lVCQbMbB3aEGg1lI+hWdkK4/nAvJLQL7LQ==",
+  "dgSpecHash": "O06dupGrR4VgyK/Tsg9cjXOMXFgKkusc6yW8130ONDBCYItsWd4/f0oMcJ8ETGJoLyTpOfTrDNVMneouuXW/dQ==",
   "success": true,
-  "projectFilePath": "/home/haqq/Documents/SWE/A2SV_learning_phase/blog-crud-app/blog-crud-app.csproj",
+  "projectFilePath": "/home/haqq/Documents/SWE/A2SV_learning_phase/blog-crud-app/src/blog-crud-app.csproj",
   "expectedPackageFiles": [
     "/home/haqq/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/haqq/.nuget/packages/microsoft.aspnetcore.openapi/8.0.3/microsoft.aspnetcore.openapi.8.0.3.nupkg.sha512",

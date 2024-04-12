@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/haqq/Documents/SWE/A2SV_learning_phase/blog-crud-app/blog-crud-app.csproj": {}
+    "/home/haqq/Documents/SWE/A2SV_learning_phase/blog-crud-app/src/blog-crud-app.csproj": {}
   },
   "projects": {
-    "/home/haqq/Documents/SWE/A2SV_learning_phase/blog-crud-app/blog-crud-app.csproj": {
+    "/home/haqq/Documents/SWE/A2SV_learning_phase/blog-crud-app/src/blog-crud-app.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/haqq/Documents/SWE/A2SV_learning_phase/blog-crud-app/blog-crud-app.csproj",
+        "projectUniqueName": "/home/haqq/Documents/SWE/A2SV_learning_phase/blog-crud-app/src/blog-crud-app.csproj",
         "projectName": "blog-crud-app",
-        "projectPath": "/home/haqq/Documents/SWE/A2SV_learning_phase/blog-crud-app/blog-crud-app.csproj",
+        "projectPath": "/home/haqq/Documents/SWE/A2SV_learning_phase/blog-crud-app/src/blog-crud-app.csproj",
         "packagesPath": "/home/haqq/.nuget/packages/",
-        "outputPath": "/home/haqq/Documents/SWE/A2SV_learning_phase/blog-crud-app/obj/",
+        "outputPath": "/home/haqq/Documents/SWE/A2SV_learning_phase/blog-crud-app/src/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/haqq/.nuget/NuGet/NuGet.Config"
