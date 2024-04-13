@@ -22,6 +22,8 @@ namespace tests
 
             Assert.Equal(postTitle, post.Title);
             Assert.Equal(postContent, post.Content);
+
+            await _context.DeletePost(post.PostId);
         }
 
         [Fact]
@@ -36,6 +38,8 @@ namespace tests
             List<Post> posts = await _context.GetAllPosts();
 
             Assert.NotEmpty(posts);
+
+            await _context.DeletePost(post.PostId);
         }
 
         [Fact]
